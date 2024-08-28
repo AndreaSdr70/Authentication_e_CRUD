@@ -2,20 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
+
 class ProductController extends Controller
 {
-    //
-    public function store(Request $request){
-        // dd($request->all());
+    public function create(){
+        return view('product.create');
+    }
 
+
+    public function store(ProductRequest $request){//Modifico il tipo di classe request che passo come parametro (dependent injection, ereditarietà)
+        
+        // dd($request->all());
         // i dati del form
         
         $name = $request->name;
         // è uguale alla sintassi $name = $request->input('name); Questo è uguale a sopra
         $description = $request->description;
         $price = $request->price;
+        $img = null;
+
+        if ($request->file('img')) {
+            $img = $request
+        ->file('img') //il metodo file mi cattura l'uploaded file della request
+        ->store('public/img'); //il metodo store mi salva il file nel percorso 'storage/app/public/img'
+        }
+
+
+
+
+        
+
+        // dd($request->all());
 
         // METODO SALVARE DATI DB 1
         //Creo un nuovo oggetto di classe Product
@@ -34,13 +54,13 @@ class ProductController extends Controller
         // MASS ASSIGNMENT 
         // PERMETTE 
         Product::create([
-
             'name' => $name,
             'description' => $description,
-            'price' => $price
+            'price' => $price,
+            'img' => $img
         ]);
         //torna indietro nella pagina in cui stavi
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Prodotto Inserito');
 
     }
 

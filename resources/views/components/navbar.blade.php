@@ -6,10 +6,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <a class="nav-link" href="{{route('product.index')}}">I miei prodotti</a>
-        <a class="nav-link" href="#">Pricing</a>
-        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+        <a class="nav-link" href="{{route('product.index')}}">I miei prodotti</a>  
+        <a class="nav-link" href="{{route('product.create')}}">Crea Prodotto</a>             
       </div>
     </div>
   </div>
