@@ -33,6 +33,41 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        //Metodo 1
+        // $img = null;
+        
+        // if ($request->file('img')) {// L'utemte mi ha passato l'immagine?
+
+            // se si all'ora fa l'operazione di salvataggio dell'immagine
+
+        //     $img = $request
+        // ->file('img') //il metodo file mi cattura l'uploaded file della request
+        // ->store('public/img'); //il metodo store mi salva il file nel percorso 'storage/app/public/img'
+        // Article::create([
+        //     'title' => $request->title,
+        //     'subtitle' => $request->subtitle,
+        //     'body' => $request->body,
+        //     'img' => $request->file('img')->store('public/img'),
+
+            // 'img' => $img,
+            //$request->file('img')->store('public/img'),
+
+        // ]);
+        // }
+        // else{
+            // se non mi passa l'immagine allora assegnera l'immagine si default
+        //     Article::create([
+        //         'title' => $request->title,
+        //         'subtitle' => $request->subtitle,
+        //         'body' => $request->body,
+        //         // 'img' => $request->file('img')->store('public/img'),
+    
+        //         // 'img' => $img,
+        //         //$request->file('img')->store('public/img'),
+    
+        //     ]);
+        // }
+        
         //
         // $title = $request->title;
         // $subtitle = $request->subtitle;
@@ -41,13 +76,20 @@ class ArticleController extends Controller
         
         //Metodo MASS ASSIGNMENT
         //Creiamo un nuovo articolo con i dati della request
-        Article::create([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
-            'body' => $request->body,
-            'img' => $request->file('img')->store('public/img'),
 
-        ]);
+        //? Metodo 2 - più pulito
+             $article = Article::create([
+                'title' => $request->title,
+                'subtitle' => $request->subtitle,
+                'body' => $request->body                
+            ]);
+
+            if ($request->file('img')) {// L'utemte mi ha passato l'immagine?
+                $article->img = $request->file('img')->store('public/img');// Valorizzo lìoggetto con il nuovo valore di img
+                $article->save(); // Salvo nel datanase il nuovo valore dell'oggetto
+            }
+
+        
     return redirect()->back()->with('message', 'articolo inserito con successo');
 
     }
@@ -69,6 +111,7 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         //
+        return view('article.edit', compact('article')); 
     }
 
     /**
@@ -77,6 +120,21 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         //
+        // dd($request->all(), $article);
+        if ($request->file('img')){
+            $img = $request->file('img')->store('public/img');// La funzione store parte dal percorso storage/app
+        }
+        else{
+            $img = $article->img;
+        }
+
+        $article->update([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'body' => $request->body,
+            'img' => $img
+        ]);
+        return redirect(route('article.index'))->with('message', 'articolo modificato');
     }
 
     /**
@@ -84,6 +142,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        //metodo per eliminare un articolo
+        $article->delete();
+
+        return redirect()->back()->with('message', 'articolo eliminato');
     }
 }

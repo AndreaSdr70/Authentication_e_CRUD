@@ -57,4 +57,12 @@ Sono le 4 operazioni di base che si possono effettuare in un Database
 
 - Scriviamo la migrazione con la struttura della nostra tabella
 - Andiamo nel modello a definire i fillable
-- 
+
+## UPDATE
+
+- Creare un form pre-compilato con i dati dell'articolo che vogliamo aggiornare;
+- Creare una funzione che mi aggiorni l'articolo da kodificare;
+
+## DELETE
+
+- Creare una funzione che elimina un articolo;
