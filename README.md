@@ -42,3 +42,19 @@
 
 
 # CRUD
+
+C => Create
+R => Read
+U => Update
+D = > Delete
+
+Sono le 4 operazioni di base che si possono effettuare in un Database
+
+- php artisan make:model NomeModello -mcr
+  - m => migrazione
+  - c => controller
+  - r => risorse del controller
+
+- Scriviamo la migrazione con la struttura della nostra tabella
+- Andiamo nel modello a definire i fillable
+- 

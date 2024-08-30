@@ -8,13 +8,14 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
         <a class="nav-link" href="{{route('product.index')}}">I miei prodotti</a>  
-        
+        <a class="nav-link" href="{{route('article.index')}}">I miei articoli</a>  
   
       {{-- Se l'utente non è autenticato --}}  
       {{-- l'oggetto per definizione e true --}}
 
       @auth
-      <a class="nav-link" href="{{route('product.create')}}">Crea Prodotto</a>   
+      <a class="nav-link" href="{{route('product.create')}}">Crea Prodotto</a> 
+      <a class="nav-link" href="{{route('article.create')}}">Crea Articolo</a>  
       {{-- Sarà vidibile solo se l'utente è autenticato --}}
       @endauth
 

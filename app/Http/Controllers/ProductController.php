@@ -74,7 +74,7 @@ class ProductController extends Controller
     public function index(){
 
         //Sto richiedendo al mio db tuti gli elementi all'interno della tabella products 
-        $products = Product::all();
+        $products = Product::all(); // => questo significa fare la query al db SELECT * from products
 
         return view('product.index', ['products' => $products]);
     }
