@@ -8,7 +8,37 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
         <a class="nav-link" href="{{route('product.index')}}">I miei prodotti</a>  
-        <a class="nav-link" href="{{route('product.create')}}">Crea Prodotto</a>             
+        
+  
+      {{-- Se l'utente non è autenticato --}}  
+      {{-- l'oggetto per definizione e true --}}
+
+      @auth
+      <a class="nav-link" href="{{route('product.create')}}">Crea Prodotto</a>   
+      {{-- Sarà vidibile solo se l'utente è autenticato --}}
+      @endauth
+
+      @guest 
+      {{-- Sarà vidibile solo se l'utente NON è autenticato --}}
+      @endguest  
+
+      @guest
+        <a class="nav-link" href="{{route('register')}}">Registrati</a> 
+        <a class="nav-link" href="{{route('login')}}">Accedi</a>
+      @endguest  
+
+      @auth 
+      <a class="nav-link" href="#">Benvenuto {{Auth::user()->name}}</a>
+      <form 
+        action="{{route('logout')}}" 
+        method="POST">
+        @csrf
+       <button 4
+       class="nav-link" 
+       type="submit">Logout</button>
+        </form> 
+      @endauth
+
       </div>
     </div>
   </div>

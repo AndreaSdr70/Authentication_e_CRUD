@@ -1,38 +1,44 @@
-- git remote remove origin
-- Comando per rimuovere l'attuale origine del progetto e poterlo associare ad una nuova repository
+# Fortify
+- E' un pacchetto (libreria) first party di Laravel che serve a gestire l'autenticazione
+  - Per autenticazione intendiamo un sistema di accesso e registrazione al nostro sito
 
-- Clone Progetto;
-  - cp .env.example .env
-  - composer i (permette di recuperare le varie librerie di cui ha bisogno il progetto)
-  - andiamo a modificare il .env per aggiornare i dati relativi al database
-  - php artisan key:gen
-  - php artisan migrate (lancia le migrazioni che creano le tabelle nel nostro database)
-  - npm i
-  
-  # Storage
-  - la memoria adibita a contenere i media del nostro progetto
-  - Locale o Esterno
-    - Un servizio famoso esterno è l'S3 di AWS
 
-  - add_img_column_to_products_table
-  - questa migrazione ha il compito di aggiungere una colonna chiamata 'img' alla tabella 'products'
+- Installazione => Seguiremo tutti i procedimenti passo passo (https://laravel.com/docs/11.x/fortify#installation)
+  - composer require laravel/fortify
+    -Installazione delle dipendenze di php
+  - php artisan fortify:install
+    - Abbiamo reso disponibile al nostro progetto dei file di configurazione e delle logiche di Fortify, per poter effettuare delle modifiche al comportamento di base di Fortify 
+  - php artisan migrate
+    - Per lanciare la nuova migrazione che il comando precedente ci ha pubblicato
 
-  - php artisan storage :link
-    - Questo comando crea un link simbolico di storage all'interno della cartella public
+- Registrazione
+  - Andiamo a definire nel FortifyServiceProvider la logica per poter visualizzare il form di registrazione
+  - Copiamo la logica di questo link => https://laravel.com/docs/11.x/fortify#registration
+  - Creiamo la cartella auth con dentro il file register.blade.php
 
-  :product="$product"
-  Utilizzo questa sintassi per passare nel componente tutto il riferimento dell'oggetto product senza superare le varie informazioni in singole proprietà;
+ - Utiliziamo il comando php artisan route:list per vedere le rotte del bostro progetto e recuperare quelle di Fortify 
 
-  - Sorage::url() => metodo che ricostruisce i path dell'immagine a partire dal valore che abbiamo nel database
+ - Logout
+  - Utiliziamo la rotta post fornita da Fortify per creare un form, che mi permetta dio staccare la sessione dell'utente registrato
 
-  # Validation
+- Accesso (login)
+  - Andiamo a definire nel FortifyServiceProvider la logica per poter visualizzare il form di accesso
+ - Copiamo la logica di questo link => https://laravel.com/docs/11.x/fortify#authentication
+  - Creiamo la cartella auth con dentro il file login.blade.php
 
-  - php artisan make:request ProductRequest
-    - Crea una nuova request che può essere personalizzata
+## Middleware
+- I middleware sono delle logiche che io scelgo di interporre e determinare richeste
+  - 'auth' è l'alias del middleware che controlla se l'utente è autenticato
 
-  - Display Errors
-    - https://laravel.com/docs/11.x/validation#quick-displaying-the-validation-errors
-    
 
-  - List Validation Errors
-    - https://laravel.com/docs/11.x/validation#available-validation-rules
+
+
+
+
+
+
+
+
+
+
+# CRUD

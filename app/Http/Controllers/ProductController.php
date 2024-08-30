@@ -8,6 +8,13 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+
+    //!! DEPRECATED
+// public function __construct()
+// {
+// $this->middleware('auth'); 
+// }
+
     public function create(){
         return view('product.create');
     }
