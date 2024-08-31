@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -64,7 +65,8 @@ class ProductController extends Controller
             'name' => $name,
             'description' => $description,
             'price' => $price,
-            'img' => $img
+            'img' => $img,
+            'user_id' => Auth::user()->id
         ]);
         //torna indietro nella pagina in cui stavi
         return redirect()->back()->with('message', 'Prodotto Inserito');
