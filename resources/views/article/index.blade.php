@@ -1,15 +1,6 @@
 <x-layout>
-<header class="header">
 
-<div class="container h-100">
-    <div class="row justify-content-center align-content-center h-100">
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-            <h1 class="text-center">I miei articoli</h1>
-
-        </div>
-    </div>
-</div>
-</header>
+<x-masthead title="I miei articoli"></x-masthead>
 
 <x-display-message/>
 
@@ -24,7 +15,16 @@
     <h5 class="card-title">{{$article->title}}</h5>
     <p class="card-subtitle">{{$article->subtitle}}</p>
     <p class="card-text">{{$article->body}}</p>
-    <a href="{{route('article.show', compact('article') )}}" class="btn btn-primary">Dettaglio Articolo</a>
+@if($article->tags->IsNotEmpty())
+    <div class="mb-3">
+        @foreach($article->tags as $tag)
+            <span class="badge text-bg-primary">#{{$tag->name}}</span>
+        @endforeach
+    </div>
+@endif
+    <a href="{{route('article.show', compact('article') )}}" class="btn btn-primary d-block">Dettaglio Articolo</a>
+    
+    @auth
     <a href="{{route('article.edit', compact('article') )}}" class="btn btn-warning">Modifica articolo</a>
 
     <form
@@ -36,6 +36,8 @@
     <button class="btn btn-danger" type="submit">Elimina articolo</button>
    
     </form>
+    @endauth
+    
   </div>
 </div>
         </div>

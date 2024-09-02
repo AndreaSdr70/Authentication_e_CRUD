@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('article.create');
+        $tags = Tag::all(); //Recupero tutti i tag dalla tabella tags [SELECT * FROM tags]
+
+        return view('article.create', compact('tags'));
     }
 
     /**
@@ -33,51 +36,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //Metodo 1
-        // $img = null;
-        
-        // if ($request->file('img')) {// L'utemte mi ha passato l'immagine?
-
-            // se si all'ora fa l'operazione di salvataggio dell'immagine
-
-        //     $img = $request
-        // ->file('img') //il metodo file mi cattura l'uploaded file della request
-        // ->store('public/img'); //il metodo store mi salva il file nel percorso 'storage/app/public/img'
-        // Article::create([
-        //     'title' => $request->title,
-        //     'subtitle' => $request->subtitle,
-        //     'body' => $request->body,
-        //     'img' => $request->file('img')->store('public/img'),
-
-            // 'img' => $img,
-            //$request->file('img')->store('public/img'),
-
-        // ]);
-        // }
-        // else{
-            // se non mi passa l'immagine allora assegnera l'immagine si default
-        //     Article::create([
-        //         'title' => $request->title,
-        //         'subtitle' => $request->subtitle,
-        //         'body' => $request->body,
-        //         // 'img' => $request->file('img')->store('public/img'),
-    
-        //         // 'img' => $img,
-        //         //$request->file('img')->store('public/img'),
-    
-        //     ]);
-        // }
-        
-        //
-        // $title = $request->title;
-        // $subtitle = $request->subtitle;
-        // $body = $request->body;
-        // $img = $request->file('img')->store('public/img');
-        
-        //Metodo MASS ASSIGNMENT
-        //Creiamo un nuovo articolo con i dati della request
-
-        //? Metodo 2 - più pulito
+                       
              $article = Article::create([
                 'title' => $request->title,
                 'subtitle' => $request->subtitle,
@@ -88,6 +47,12 @@ class ArticleController extends Controller
                 $article->img = $request->file('img')->store('public/img');// Valorizzo lìoggetto con il nuovo valore di img
                 $article->save(); // Salvo nel datanase il nuovo valore dell'oggetto
             }
+
+            $article->tags()->attach($request->tags);
+            // $article
+            // ->tags() // Sto utilizzando il metodo di relazione many to many che ho definito nelm odello compio questa operazione quando devo scrivere nel database
+
+            // ->attach($request->tags); //Con il metodo attach gli passo gli id degli oggetti che voglio mettere in relazione al modello di partenza
 
         
     return redirect()->back()->with('message', 'articolo inserito con successo');
@@ -110,8 +75,10 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+
+        $tags = Tag::all();
         //
-        return view('article.edit', compact('article')); 
+        return view('article.edit', compact('article', 'tags')); 
     }
 
     /**
@@ -122,6 +89,11 @@ class ArticleController extends Controller
         //
         // dd($request->all(), $article);
         if ($request->file('img')){
+
+        Storage::delete($article->img);//Elimnare la vecchia immagine
+
+            // dd($result);
+
             $img = $request->file('img')->store('public/img');// La funzione store parte dal percorso storage/app
         }
         else{
@@ -134,6 +106,9 @@ class ArticleController extends Controller
             'body' => $request->body,
             'img' => $img
         ]);
+
+        $article->tags()->sync($request->tags); // Sincronizza l'attale relazione aggiornata tra i tag selezionati e quelli deselezionati
+
         return redirect(route('article.index'))->with('message', 'articolo modificato');
     }
 
@@ -142,6 +117,8 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+
+        $article->tags()->detach(); // Eliminare ogni vincolo di relazione tra i due modelli
         //metodo per eliminare un articolo
         $article->delete();
 

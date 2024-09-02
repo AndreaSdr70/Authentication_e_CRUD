@@ -1,16 +1,7 @@
 <x-layout>
-   
-<header class="header">
+ 
 
-<div class="container h-100">
-    <div class="row justify-content-center align-content-center h-100">
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-            <h1 class="text-center">Inserisci un nuovo prodotto</h1>
-
-        </div>
-    </div>
-</div>
-</header>
+<x-masthead title="Inserisci un nuovo prodotto"></x-masthead>
 
 <x-display-message/>
 

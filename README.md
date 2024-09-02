@@ -1,9 +1,9 @@
-# Relazione One to Many
+# Relazione Many to Many
 
-- Aggiungere la FK (Foreign Key) all'interno della tabella child della relazione One to Many
-  - La tabella child è quella che definisce la parte "Many" della Relazione
-   - 'php artisan make:migration add_user_id_column_to_products_table'
-   - Nella migrazione creo prima la colonna 
-   - Poi rendo quella colonna una FK
-
-- Istruire i nostri Modelli relazionati che possono interagire tra di loro
+- Ci creiamo due Modelli da mettere in relazione N - N
+- Creare la migrazione per i modelli
+- Creare la migrazioneper la tabella pivot
+    - 'php artisan make:migration create_article_tag_table'
+    - La tabella pivot si crea mettendo i nomi dei modelli al singolare minuscolo in ordine alfabetico
+- Inserisco nella migrazione le due Foreign Key
+- Istruire i modelli alla relazione Many to Many
